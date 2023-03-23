@@ -55,8 +55,8 @@ export default function Home() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <h2>See results page! ^^</h2>
         {form}
+        <h1>Click "Results" after submitting this form!</h1>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <GetData />
