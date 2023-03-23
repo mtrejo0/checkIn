@@ -8,12 +8,9 @@ export default function GetData() {
   const [data, setData] = useState<any>();
 
 
-  console.log(process.env.API_KEY)
-  console.log("oops")
-
   useEffect(() => {
     fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${process.env.API_KEY}`
+      `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${process.env.REACT_APP_API_KEY}`
     )
       .then((response) => response.json())
       .then((result) => {
@@ -73,7 +70,7 @@ export default function GetData() {
   return (
     <div>
 
-      <h3>Average Score for today: {getAverageScore()}</h3>
+      <h3>Average Score for today: {getAverageScore().toFixed(1)}</h3>
 
       <BarChart data={scoreCounter} chartName="Scores:"/>
       <BarChart data={majorCounter} chartName="Majors:"/>

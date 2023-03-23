@@ -1,6 +1,5 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import BarChart from "./BarChart";
+import { useState } from "react";
 import GetData from "./GetData";
 
 
@@ -35,7 +34,7 @@ export default function Home() {
   const [value, setValue] = useState(0);
   
 
-  const form = <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeFuJS3RXD94spL-5nlXSjbtfGquamZ75sdVz69SJCRgp340A/viewform?embedded=true" width="100%" height="772" >Loading…</iframe>
+  const form = <iframe title="form" src="https://docs.google.com/forms/d/e/1FAIpQLSeFuJS3RXD94spL-5nlXSjbtfGquamZ75sdVz69SJCRgp340A/viewform?embedded=true" width="100%" height="772" >Loading…</iframe>
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -51,6 +50,7 @@ export default function Home() {
   </Box>
   <TabPanel value={value} index={0}>
     {form}
+    <h1>See results page!</h1>
   </TabPanel>
   <TabPanel value={value} index={1}>
     <GetData/>
