@@ -1,11 +1,37 @@
-import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import { useState, useEffect, useMemo } from "react";
 import BarChart from "./BarChart";
 
 const SPREADSHEET_ID = "1NXT_xWJXbuF-77TO6WjZo9QRHuO7cdlMJYF4VBbtFDU";
-const RANGE = "A2:D6";
+const RANGE = "A2:D1000";
 
 export default function GetData() {
   const [data, setData] = useState<any>();
+
+  const [date, setDate] = useState<Date>(new Date())
+
+
+  const getDateData = useMemo(() => {
+
+      const todayData = data?.values?.filter((val: any) => {
+        const todayDateString = date.toLocaleDateString(); // convert today's date to a string in the format 'mm/dd/yyyy'
+
+        const timestampDate = new Date(val[0]);
+        const timestampDateString = timestampDate.toLocaleDateString();
+
+        return todayDateString === timestampDateString;
+      });
+
+      const jsonTodayData = todayData?.map((item: any) => ({
+        date: item[0],
+        score: parseInt(item[1]),
+        major: item[2],
+        year: item[3],
+      }));
+
+      return jsonTodayData
+
+  }, [data, date])
 
   useEffect(() => {
     fetch(
@@ -13,31 +39,20 @@ export default function GetData() {
     )
       .then((response) => response.json())
       .then((result) => {
-        const todayData = result.values.filter((val: any) => {
-          const todayDateString = new Date().toLocaleDateString(); // convert today's date to a string in the format 'mm/dd/yyyy'
 
-          const timestampDate = new Date(val[0]);
-          const timestampDateString = timestampDate.toLocaleDateString();
+        setData(result)
+        console.log(result)
 
-          return todayDateString === timestampDateString;
-        });
-
-        const jsonTodayData = todayData.map((item: any) => ({
-          date: item[0],
-          score: parseInt(item[1]),
-          major: item[2],
-          year: item[3],
-        }));
-
-        setData(jsonTodayData);
+        
       })
       .catch((error) => console.log(error));
   }, []);
 
   const getAverageScore = () => {
+    
     return (
-      data?.reduce((acc: number, curr: any) => curr.score + acc, 0) /
-      data?.length
+      getDateData?.reduce((acc: number, curr: any) => curr.score + acc, 0) /
+      getDateData?.length
     );
   };
 
@@ -46,7 +61,7 @@ export default function GetData() {
     const majorCounter: any = {};
     const yearCounter: any = {};
 
-    data?.forEach((val: any) => {
+    getDateData?.forEach((val: any) => {
       const { score, major, year } = val;
 
       scoreCounter[score] = (scoreCounter[score] || 0) + 1;
@@ -61,12 +76,16 @@ export default function GetData() {
 
   return (
     <div>
-      <h3>Data for {new Date().toLocaleDateString()} </h3>
-      <h4>Responses: {data?.length}</h4>
+      <h3>Data for {date.toLocaleDateString()} </h3>
+      <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000))}>Prev Date</Button>
+      <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000))}>Next Date</Button>
+      <h4>Responses: {getDateData?.length}</h4>
       <h4>Average Score: {getAverageScore().toFixed(1)}</h4>
 
       <BarChart data={scoreCounter} chartName="Scores:" />
+      <br></br>
       <BarChart data={majorCounter} chartName="Majors:" />
+      <br></br>
       <BarChart data={yearCounter} chartName="Years:" />
     </div>
   );
