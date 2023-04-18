@@ -13,14 +13,9 @@ export default function GetData() {
 
   const getDateData = useMemo(() => {
 
-      const todayData = data?.values?.filter((val: any) => {
-        const todayDateString = date.toLocaleDateString(); // convert today's date to a string in the format 'mm/dd/yyyy'
-
-        const timestampDate = new Date(val[0]);
-        const timestampDateString = timestampDate.toLocaleDateString();
-
-        return todayDateString === timestampDateString;
-      });
+    const todayData = data?.values?.filter(
+      (val: any) => date?.toLocaleDateString() === new Date(val[0]).toLocaleDateString()
+    );
 
       const jsonTodayData = todayData?.map((item: any) => ({
         date: item[0],
@@ -39,11 +34,7 @@ export default function GetData() {
     )
       .then((response) => response.json())
       .then((result) => {
-
         setData(result)
-        console.log(result)
-
-        
       })
       .catch((error) => console.log(error));
   }, []);
