@@ -85,7 +85,7 @@ export default function GetData() {
       <br></br>
       
       <h4>Quotes:</h4>
-      {getDateData?.map((each: any) => <pre style={{marginTop: "-8px"}}>{each?.text}</pre>)}
+      {getDateData?.map((each: any) => <p style={{marginTop: "-8px", maxWidth: "90vw"}}>{each?.text}</p>)}
 
     </Box>
   );
