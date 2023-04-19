@@ -1,9 +1,9 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState, useEffect, useMemo } from "react";
 import BarChart from "./BarChart";
 
 const SPREADSHEET_ID = "1NXT_xWJXbuF-77TO6WjZo9QRHuO7cdlMJYF4VBbtFDU";
-const RANGE = "A2:D1000";
+const RANGE = "A2:G1000";
 
 export default function GetData() {
   const [data, setData] = useState<any>();
@@ -22,6 +22,7 @@ export default function GetData() {
         score: parseInt(item[1]),
         major: item[2],
         year: item[3],
+        text: item[6]
       }));
 
       return jsonTodayData
@@ -66,10 +67,12 @@ export default function GetData() {
   const { scoreCounter, majorCounter, yearCounter } = getFrequencies();
 
   return (
-    <div>
+    <Box sx={{display: "flex", alignItems: "center", flexDirection: "column"}}>
       <h3>Data for {date.toLocaleDateString()} </h3>
-      <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000))}>Prev Date</Button>
-      <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000))}>Next Date</Button>
+      <Box>
+        <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000))}>Prev Date</Button>
+        <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000))}>Next Date</Button>
+      </Box>
       <h4>Responses: {getDateData?.length}</h4>
       <h4>Average Score: {getAverageScore().toFixed(1)}</h4>
 
@@ -78,6 +81,12 @@ export default function GetData() {
       <BarChart data={majorCounter} chartName="Majors:" />
       <br></br>
       <BarChart data={yearCounter} chartName="Years:" />
-    </div>
+
+      <br></br>
+      
+      <h4>Quotes:</h4>
+      {getDateData?.map((each: any) => <pre style={{marginTop: "-8px"}}>{each?.text}</pre>)}
+
+    </Box>
   );
 }

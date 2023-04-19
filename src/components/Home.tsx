@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import GetData from "./GetData";
 
@@ -48,12 +48,18 @@ export default function Home() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", marginTop: "32px" }}>
+        <Stack spacing={"16px"} direction={"row"}>
+          <Button variant={value === 0 ? "contained" : "outlined"} onClick={()=> setValue(0)}>Form </Button>
+          <Button variant={value === 1 ? "contained" : "outlined"} onClick={()=> setValue(1)}>Results</Button>
+        </Stack>
+      </Box>
+      {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Form" />
           <Tab label="Results!" />
         </Tabs>
-      </Box>
+      </Box> */}
       <TabPanel value={value} index={0}>
         {form}
         <h1>Click "Results" after submitting this form!</h1>
