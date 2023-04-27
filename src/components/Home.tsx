@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import GetData from "./GetData";
 
@@ -36,15 +36,14 @@ export default function Home() {
       title="form"
       src="https://docs.google.com/forms/d/e/1FAIpQLSeFuJS3RXD94spL-5nlXSjbtfGquamZ75sdVz69SJCRgp340A/viewform?embedded=true"
       width="100%"
-      height="772"
+      height="1050"
     >
       Loading…
     </iframe>
   );
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  
+
 
   return (
     <Box sx={{ width: "100%" }}>

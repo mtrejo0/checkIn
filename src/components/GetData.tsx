@@ -66,9 +66,22 @@ export default function GetData() {
 
   const { scoreCounter, majorCounter, yearCounter } = getFrequencies();
 
+  var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  const form = (
+    <iframe
+      title="form"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSekfDAI5XIy0eAJIlEt1Ks9aqaY31l3sAH7Fy9Pib_wRBlNFg/viewform?embedded=true"
+      width="100%"
+      height="1050"
+    >
+      Loading…
+    </iframe>
+  );
+
   return (
     <Box sx={{display: "flex", alignItems: "center", flexDirection: "column"}}>
-      <h3>Data for {date.toLocaleDateString()} </h3>
+      <h3>{daysOfWeek[date.getDay()]} {date.toLocaleDateString()} </h3>
       <Box>
         <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000))}>Prev Date</Button>
         <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000))}>Next Date</Button>
@@ -86,6 +99,9 @@ export default function GetData() {
       
       <h4>Quotes:</h4>
       {getDateData?.map((each: any) => <p style={{marginTop: "-8px", maxWidth: "90vw"}}>{each?.text}</p>)}
+
+
+      {form}
 
     </Box>
   );
