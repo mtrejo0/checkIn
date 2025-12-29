@@ -79,11 +79,36 @@ export default function GetData() {
     </iframe>
   );
 
+  // Format date to YYYY-MM-DD for HTML5 date input
+  const formatDateForInput = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = new Date(e.target.value);
+    setDate(newDate);
+  };
+
   return (
     <Box sx={{display: "flex", alignItems: "center", flexDirection: "column"}}>
       <h3>{daysOfWeek[date.getDay()]} {date.toLocaleDateString()} </h3>
-      <Box>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2, mb: 2 }}>
         <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() - 24 * 60 * 60 * 1000))}>Prev Date</Button>
+        <input
+          type="date"
+          value={formatDateForInput(date)}
+          onChange={handleDateChange}
+          style={{
+            padding: "8px 12px",
+            fontSize: "16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            cursor: "pointer"
+          }}
+        />
         <Button onClick={() => setDate(prevDate => new Date(prevDate.getTime() + 24 * 60 * 60 * 1000))}>Next Date</Button>
       </Box>
       <h4>Responses: {getDateData?.length}</h4>
